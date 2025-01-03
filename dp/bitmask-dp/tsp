@@ -1,1 +1,26 @@
 
+// gfg tsp solution
+
+vector<vector<int>> dp;
+int solve(int index ,int last,int mask, vector<vector<int>> &a){
+  if(index == a.size()-1)
+   return  a[last][0];
+   
+  if(dp[last][mask] != -1)
+  return dp[last][mask];
+  
+  int ans = 100000;
+  for(int i=1; i<a.size() ; i++){
+       if( (mask & (1<<i) ) == 0 ) {
+            int val = a[last][i];
+            ans = min( ans , val + solve(index+1,i,mask | (1<<i),a)); 
+        }
+  }
+  return dp[last][mask] = ans;
+}
+int tsp(vector<vector<int>>& a) {
+        // Code here
+        int n=a.size();
+        dp.resize(n,vector<int>(1<<n,-1));
+        return solve(0,0,0,a);
+}

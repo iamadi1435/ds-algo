@@ -1,0 +1,74 @@
+class Solution {
+public:
+(*                                 GENERIC PROBLEM OF MEET IN THE MIDDLE TIME COMPLEXITY - 2^N  *)
+                                
+(*  problem is to generate all subsets of size 30 which is giving TLE , so we have to divide it into two halves of 15 each and 15 each  *)
+   
+(*  key learning - if you have to decrease time complexity like 2^n to 2^(n/2) then you can use meet in the middle *)
+
+    
+    int minimumDifference(vector<int>& nums) {
+        int N = nums.size(), n = N / 2;
+        int sum = 0;
+        for (auto& x : nums)
+            sum += x;
+
+(*      generation of all subsets of two halves *)
+    
+        vector<vector<int>> l(n + 1), r(n + 1);
+        for (int mask = 0; mask < (1 << n); mask++) {
+            int sz = 0, lsum = 0, rsum = 0;
+            for (int j = 0; j < n; j++) {
+                if (mask & (1<<j)) {
+                    sz++;
+                    lsum += nums[j];
+                    rsum += nums[j + n];
+                }
+            }
+            l[sz].push_back(lsum);
+            r[sz].push_back(rsum);
+        }
+
+(*      sorting all subsets of one half of i sizes for applying binary search in it *)
+
+        for (int i = 0; i <= n; i++) {
+            sort(r[i].begin(), r[i].end());
+        }
+
+
+(*      formulate answer you need to calculate in problem  *)
+
+(*      ans will store answer *)
+        
+        int ans = min(abs(sum - 2*l[n][0]),abs(sum - 2*r[n][0]));
+
+        for(int i=1;i<n;i++){
+            for (auto & x : l[i]) {
+            
+(*             what we have to find in second half *)
+        
+         
+                int toFind = (sum - 2*x)/2;
+
+                
+                auto lb = lower_bound(r[n - i].begin(), r[n - i].end(), toFind);
+                
+(*              we have to calculate lb of toFind in r[size]
+                    toFind = 5,  r[4] = { 1, 4, 7, 8, 9}
+                so we can get two potential candiate here 4 and 7 which can give answer so we have to calculate our answer wrt both  *)
+                    
+                
+                if (lb != r[n - i].end()) {
+                    ans = min(ans, abs(sum - 2 * (x + ( *lb )));
+                }
+                
+                if (lb != r[n - i].begin()) {
+                    lb--;
+                    ans = min(ans, abs(sum - 2 * (x + ( *lb )));
+                }
+            }
+        }
+
+        return ans;
+    }
+};

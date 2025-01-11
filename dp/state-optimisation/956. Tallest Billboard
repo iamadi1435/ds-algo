@@ -1,0 +1,39 @@
+class Solution {
+public:
+
+ (* 
+    we are making two towers of billboards using array values from two disjoint sets . 
+    For this we have one approach:
+    
+          dp[index][tower1_sum][tower2_sum] = till that index maximum billboard length we can achieve .
+          In base case we compared tower1_sum == tower2_sum and return the any of the two values if sum is equal else 0
+
+    Issue with the approach takes 20*5000*5000 = 5*10^8 which will give TLE and MLE .
+
+    So for optimizing this we will store difference of tower1_sum and tower2_sum this will reduce TC and SC to :
+               20*(-5000 to 5000) =  20*2*5000
+    this is manageable and below code is optimized one 
+    
+  *)
+    
+    
+    int dp[21][10005];
+    int solve(int index,int diff,vector<int>& rods){
+        if(index == rods.size())
+            return diff == 0?0:INT_MIN;
+
+        if(dp[index][diff + 5000] != -1) 
+        return dp[index][diff + 5000];
+
+        int opt1 = rods[index] + solve(index+1,diff+rods[index],rods);
+        int opt2 = solve(index+1,diff-rods[index],rods);
+        int opt3 = solve(index+1,diff,rods);
+
+        return dp[index][diff + 5000] = max({opt1,opt2,opt3});
+    }
+    int tallestBillboard(vector<int>& rods) {
+        int n = rods.size();
+        memset(dp,-1,sizeof(dp));
+        return solve(0,0,rods);
+    }
+};

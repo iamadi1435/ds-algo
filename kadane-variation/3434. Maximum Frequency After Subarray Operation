@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+    // here we are finding maximum subarray sum for each individual i from 1 to 50 by making a array which will contain +1 : for i itself  , -1 : for k and 0 : for others .
+
+    // by finding maximum subarray sum we are finding subarray for which freq of i maximum with keeping mind count of k is lesser in that too
+
+    //  to achieve this we have applied kadane algo on every i and we will take maximum of all i's : 
+
+               ans = max(ans, maximumSubarraySumForParticular_i + (count of k in whole parent array))
+
+   // and finaly we will return answer
+    int maxFrequency(vector<int>& nums, int k) {
+        int n = nums.size(),cnt=0,ans=0;
+        for(auto &x:nums) if(x==k) cnt++;
+      
+        for(int i=1;i<=50;i++){
+             if(i == k)
+                 continue;
+            int s=0;
+            for(auto &x:nums){
+                 
+                if(x == i) s++;
+                else if( x == k) s--;
+
+                if(s<0) s=0;
+
+                ans = max(ans,s + cnt);
+            }
+        }
+        return ans;
+    }
+};

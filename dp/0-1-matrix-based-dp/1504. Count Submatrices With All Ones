@@ -1,0 +1,40 @@
+class Solution {
+public:
+
+
+    # Approach is to fix topleft corner of each submatrix and we are going to count how many submatrices are there which will form a matrix with all 1's and we will include it 
+    # in answer 
+
+    # first of all we will count the consecutive 1's to the right and store it for each element of the matrix which is a part of pre-computation
+    # Now we will go to every mat element and traverse from that row to last row in same coloumn and count the answer by taking minimum of consecutive 1's till that point 
+    
+    int numSubmat(vector<vector<int>>& mat) {
+        int m = mat.size();
+        int n = mat[0].size();
+        vector<vector<int>> right = mat;
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 2; j >= 0; j--) {
+                if (mat[i][j] == 0)
+                    continue;
+                right[i][j] += right[i][j + 1];
+            }
+        }
+        int ans = 0;
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                if (mat[i][j] == 0)
+                    continue;
+
+                int cols = right[i][j], curr = 0;
+                for (int k = i; k < m; k++) {
+                    if (right[k][j] == 0)
+                        break;
+                    cols = min(cols, right[k][j]);
+                    curr += cols;
+                }
+                ans += curr;
+            }
+        }
+        return ans;
+    }
+};

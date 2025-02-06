@@ -1,0 +1,43 @@
+
+https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k/description/
+
+
+we will take prefix sum of array row wise which will take o(n^3) and use set to find closest answer to k 0(nlogn)
+combined time complexity will be O(n^3 + nlogn)
+
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& mat, int p) {
+        int m = mat.size(), n = mat[0].size(),ans = INT_MIN;
+
+        for (int k = 0; k < m; k++) {
+            vector<int> temp(n,0);
+            for (int i = k; i < m; i++) {
+            
+                for (int j = 0; j < n; j++) {
+                    temp[j] += mat[i][j];
+                }
+
+                set<int> prefixSums;
+                prefixSums.insert(0); // To handle exact `k` cases
+                int prefixSum = 0, maxSum = INT_MIN;
+
+                for (int num : temp) {
+                    prefixSum += num;
+
+                    // Find the smallest prefix sum that keeps sum <= k
+                    auto it = prefixSums.lower_bound(prefixSum - p);
+                    if (it != prefixSums.end()) {
+                        maxSum = max(maxSum, prefixSum - *it);
+                    }
+
+                    // Insert the current prefix sum into the set
+                    prefixSums.insert(prefixSum);
+                }
+                ans = max(ans,maxSum);
+            }
+        }
+        return ans;
+    }
+};
+

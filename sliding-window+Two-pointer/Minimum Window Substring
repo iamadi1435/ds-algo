@@ -1,0 +1,53 @@
+https://leetcode.com/problems/minimum-window-substring/
+
+
+class Solution {
+
+     we will be matching two maps values if they match we will shrink the window by decreasing left pointer till that index were maps do not matches and rthen we increment right and add element and repeat same stuff
+     
+public:
+    bool check(unordered_map<char, int> &m, unordered_map<char, int> &mt) {
+        for (auto& [x, y] : mt) {
+            if ((m.find(x) == m.end()) || m[x] < y)
+                return false;
+        }
+        return true;
+    }
+    string minWindow(string s, string t) {
+        unordered_map<char, int> mt;
+        int n = s.length();
+        for (auto& x : t) {
+            mt[x]++;
+        }
+        int left = 0, right = 0, ans = n;
+        int ansLeft = -1, ansRight = -1;
+        unordered_map<char, int> m;
+        while (right < n) {
+            if (mt.count(s[right]) == 0) {
+                right++;
+                continue;
+            }
+            m[s[right]]++;
+            int rep = 1;
+            while (check(m, mt)) {
+                if (ans >= right - left + 1) {
+                    ans = right - left + 1;
+                    ansLeft = left;
+                    ansRight = right;
+                }
+                if (m.count(s[left]) > 0 && m[s[left]] >= mt[s[left]]) {
+                    m[s[left]]--;
+                }
+                left++;
+            }
+            right++;
+        }
+
+        string answer = "";
+        if (ansLeft != -1) {
+            for (int i = ansLeft; i <= ansRight; i++)
+                answer += s[i];
+        }
+        return answer;
+    }
+};

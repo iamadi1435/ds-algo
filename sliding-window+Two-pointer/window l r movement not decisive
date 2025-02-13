@@ -1,0 +1,8 @@
+https://leetcode.com/problems/subarrays-with-k-different-integers/solutions/4944691/simplified-algorithm-explained-with-visual-example-c-java/
+https://leetcode.com/problems/count-number-of-nice-subarrays/description/
+
+
+this problem is very frequent - when you have to count exactly k/sum or anything in all subarrays of array then you can remind yoursef is it of the form 
+        
+
+             f(value == k) =  f(value<=k) - f(value<=k-1)

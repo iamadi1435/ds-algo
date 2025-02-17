@@ -1,0 +1,31 @@
+
+monotonic stack we have used to find prev maxm and we used principle how to count subarrays we have taken counted from one side only this will give us perfect answer
+
+class Solution {
+    #define ll long long 
+public:
+    long long numberOfSubarrays(vector<int>& a) {
+      int n = a.size();
+      vector<int> nxt(n,-1);
+      stack<int> s;
+      for(int i=0;i<n;i++){
+        while(!s.empty() && a[s.top()]<= a[i]){
+            s.pop();
+        }
+        if(!s.empty())
+        nxt[i]= s.top();
+        s.push(i);
+      }
+      unordered_map<int,vector<int>> m;
+      for(int i=0;i<n;i++){
+        m[a[i]].push_back(i);
+      }
+      ll ans=0;
+      for(int i=0;i<n;i++){
+          auto start=lower_bound(m[a[i]].begin(),m[a[i]].end(),nxt[i]);
+          auto end = lower_bound(m[a[i]].begin(),m[a[i]].end(),i);
+          ans += end-start+1;
+      }
+      return ans;
+    }
+};

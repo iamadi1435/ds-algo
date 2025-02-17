@@ -1,0 +1,21 @@
+                                     Approaches with problem 
+
+1. Expanding or shrinking a window after getting a suitable window
+
+  minimum window substring
+
+2. Finding a suitablle window and then discarding all the elements from window and finding a fresh window again 
+
+  https://leetcode.com/problems/count-subarrays-with-fixed-bounds/
+
+3. count number of subarrays in which we use :   f(k) = f(<=k) - f(<=k-1)
+
+  https://leetcode.com/problems/count-number-of-nice-subarrays/description/
+
+4. 4 pointers approach l,r,start,end to calculate answer in a particular subarray
+
+  https://leetcode.com/problems/count-number-of-nice-subarrays/description/
+
+5. use of queue and stack to store some values in subarrays 
+
+ https://leetcode.com/problems/count-number-of-nice-subarrays/description/

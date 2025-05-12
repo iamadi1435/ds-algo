@@ -1,0 +1,93 @@
+
+                       // JAI GAYATRI MAA  //
+                       
+    // Don't steal templates  and logic from others make your own LOL//
+
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+ 
+#define fi first
+#define se second
+#define mp make_pair
+#define fill(a,b)        memset(a, b, sizeof(a))
+#define pb               push_back
+#define int           long long 
+#define w(x)             int x; cin>>x; while(x--) 
+#define setbits(x)       __builtin_popcountll(x)
+#define zeroTrailingBits(x)      __builtin_ctzll(x)
+#define zeroLeadingBits(x)      __builtin_clzll(x)
+#define ps(x,y)          fixed<<setprecision(y)<<x
+// #define f(i,x,n)          for (int i = x; i < n; i++)
+#define fr(i,x,n)          for (int i = x; i >=n; i--)
+#define all(x)           (x).begin(), (x).end()
+#define ya            cout<<"YES"<<"\n";    
+#define na          cout<<"NO"<<"\n";  
+#define nextline         cout<<"\n";
+#define yashow(x)         if(x){ cout<<"YES"<<"\n"; } else{cout<<"NO"<<"\n"; }
+#define show(A)          for (auto i: A) cout << i << " "; cout << '\n';
+#define are(i,n)           int n,i;cin>>n;  vector<int> a(n); for(i=0;i<n;i++) cin>>a[i];
+#define vi  vector<int> 
+#define vvi  vector<vector<int>>
+using namespace std;
+
+typedef map<int,int>::iterator MapIterator;
+typedef __gnu_pbds::tree<pair<int,int>, __gnu_pbds::null_type, less<pair<int,int>>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update> ordered_set;
+// st.order_of_key(keyValue)
+#define ld long double
+#define mi map<int,int> 
+#define pqi priority_queue<int>
+#define pi pair<int,int> 
+#define ios  ios_base::sync_with_stdio(false);cin.tie(NULL); cout.tie(NULL);
+
+const int N = 300005;
+const int mod = 998244353;
+const int int_max=2147483647;
+
+
+int  dfs(int curr,int par,int &ans,vvi &graph){
+  int temp = 0,maxChild=-1;
+  priority_queue<int> pq;
+  for(auto &child:graph[curr]){
+    if(par != child){
+      int childRes = dfs(child,curr,ans,graph);
+      pq.push(1+childRes);
+      maxChild = max(maxChild,childRes);
+    }
+  }
+  if(!pq.empty())
+{   temp += pq.top();
+     pq.pop();}
+   if(!pq.empty())
+{ temp += pq.top();
+  pq.pop();}
+  ans = max(temp,ans);
+  return maxChild+1;
+}
+void solve(){
+  int n;cin>>n;
+  vector<vector<int>> graph(n);
+  for(int i=0;i<n-1;i++){
+    int u,v;cin>>u>>v;
+    graph[u].push_back(v);
+    graph[v].push_back(u);
+  }
+  int ans  = 0;
+  int height = dfs(0,-1,ans,graph);
+  cout<<ans<<"\n";
+}
+
+
+
+int32_t main() {  
+    // ios;
+    int t=1;
+    // cin>>t;
+    while(t--){
+      solve();
+           
+           
+    }
+    return 0;
+}
+

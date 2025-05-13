@@ -1,0 +1,6 @@
+
+1.For 2D grid with any values (0,1/positive value ) if the diection is not limited to two directions then we have to use dijikstra or 0-1 bfs to solve 
+ shortest path problem of grid.
+2. Dijikstra,0-1 Dfs,Bellman ford is available for both graphs and 2D matrix also.
+3.BFS does not work for weighted graphs unless modified with a priority queue, which ultimately turns it into Dijkstra’s algorithm.
+4.DFS would be highly inefficient because it would explore all possible paths, many of which would be unnecessary since they do not guarantee the shortest travel time. 

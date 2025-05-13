@@ -1,0 +1,101 @@
+https://leetcode.com/problems/longest-valid-parentheses/?envType=problem-list-v2&envId=stack
+
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+
+(*          1st appraoch my way  *)
+
+
+         
+        int n = s.length();
+        int ans = 0, count = 0;
+        map<int, int> m;
+        stack<int> st;
+        for (int i = 0; i < n; i++) {
+            char val = s[i];
+            if (val == '(') {
+                count = 0;
+                st.push(i);
+            } else if (val == ')' && !st.empty()) {
+                count += m[st.top() - 1];
+                count += 2;
+                ans = max(ans, count);
+                m[i] = count;
+                st.pop();
+            }
+        }
+        return ans;
+
+(*       2nd approach stack efficient way *)
+
+        stack<int> stk;
+        stk.push(-1);
+        int maxLen = 0;
+
+        for (int i = 0; i < s.length(); ++i) {
+            if (s[i] == '(') {
+                stk.push(i);
+            } else {
+                stk.pop();
+                if (stk.empty()) {
+                    stk.push(i);
+                } else {
+                    maxLen = max(maxLen, i - stk.top());
+                }
+            }
+        }
+        return maxLen;
+
+
+(*         3rd approach using o(1) space - two scan way / + 1 -1 way  *)
+
+        int left = 0, right = 0, maxLen = 0;
+
+        // Left to Right
+        for (char ch : s) {
+            if (ch == '(')
+                left++;
+            else
+                right++;
+            if (left == right)
+                maxLen = max(maxLen, 2 * right);
+            else if (right > left)
+                left = right = 0;
+        }
+
+        left = right = 0;
+        // Right to Left
+        for (int i = s.length() - 1; i >= 0; --i) {
+            if (s[i] == ')')
+                right++;
+            else
+                left++;
+            if (left == right)
+                maxLen = max(maxLen, 2 * left);
+            else if (left > right)
+                left = right = 0;
+        }
+
+        return maxLen;
+
+(*         4th approach dp way  *)
+
+  int n = s.length();
+    vector<int> dp(n, 0);
+    int maxLen = 0;
+
+    for (int i = 1; i < n; ++i) {
+        if (s[i] == ')') {
+            if (s[i-1] == '(') {
+                dp[i] = (i >= 2 ? dp[i-2] : 0) + 2;
+            } else if (i - dp[i-1] > 0 && s[i - dp[i-1] - 1] == '(') {
+                dp[i] = dp[i-1] + ((i - dp[i-1]) >= 2 ? dp[i - dp[i-1] - 2] : 0) + 2;
+            }
+            maxLen = max(maxLen, dp[i]);
+        }
+    }
+
+    return maxLen;
+    }
+};

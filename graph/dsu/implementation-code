@@ -1,0 +1,122 @@
+
+                       // JAI GAYATRI MAA  //
+                       
+    // Don't steal templates  and logic from others make your own LOL//
+
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+ 
+#define fi first
+#define se second
+#define mp make_pair
+#define fill(a,b)        memset(a, b, sizeof(a))
+#define pb               push_back
+#define int           long long 
+#define w(x)             int x; cin>>x; while(x--) 
+#define setbits(x)       __builtin_popcountll(x)
+#define zeroTrailingBits(x)      __builtin_ctzll(x)
+#define zeroLeadingBits(x)      __builtin_clzll(x)
+#define ps(x,y)          fixed<<setprecision(y)<<x
+// #define f(i,x,n)          for (int i = x; i < n; i++)
+#define fr(i,x,n)          for (int i = x; i >=n; i--)
+#define all(x)           (x).begin(), (x).end()
+#define ya            cout<<"YES"<<"\n";    
+#define na          cout<<"NO"<<"\n";  
+#define nextline         cout<<"\n";
+#define yashow(x)         if(x){ cout<<"YES"<<"\n"; } else{cout<<"NO"<<"\n"; }
+#define show(A)          for (auto i: A) cout << i << " "; cout << '\n';
+#define are(i,n)           int n,i;cin>>n;  vector<int> a(n); for(i=0;i<n;i++) cin>>a[i];
+#define vi  vector<int> 
+#define vvi  vector<vector<int>>
+using namespace std;
+
+typedef map<int,int>::iterator MapIterator;
+typedef __gnu_pbds::tree<pair<int,int>, __gnu_pbds::null_type, less<pair<int,int>>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update> ordered_set;
+// st.order_of_key(keyValue)
+#define ld long double
+#define mi map<int,int> 
+#define pqi priority_queue<int>
+#define pi pair<int,int> 
+#define ios  ios_base::sync_with_stdio(false);cin.tie(NULL); cout.tie(NULL);
+
+const int N = 300005;
+const int mod = 998244353;
+const int int_max=2147483647;
+
+vector<int> parent(N);
+vector<int> sizes(N);
+
+
+int find(int x){
+  // base case - until we reaches master parent 
+  if(parent[x] == x)
+  // performing path compression until we reach master parent itself from base case
+  return parent[x] = find(parent[x]);
+}
+
+void unite(int x,int y){
+  int par_x = find(x);
+  int par_y = find(y);
+  
+  if(par_x == par_y)
+     return;
+     
+  // always add smaller into bigger component
+  
+  if(sizes[par_x] < sizes[par_y]){
+    parent[par_x] = par_y;
+    sizes[par_y] += sizes[par_x];
+  }
+  else{
+    parent[par_y] = par_x;
+    sizes[par_x] += sizes[par_y];
+  }
+}
+
+void solve(){
+  int n,e;cin>>n>>e;
+  
+  vector<pi> graph[n];
+
+  for(int i=0;i<n;i++){
+    
+    // initialize everybody parent as himself and size of everybody as 1 initialy 
+    parent[i]=i;
+    sizes[i]=1;
+  }
+   
+  for(int i=0;i<e;i++){
+    int u,v;cin>>u>>v;
+    unite(u,v);
+  }
+  
+  /*
+  
+  use find(i) in place of parent[i] as this will do
+  instant path compression and gives master parent
+  
+  use sizes[find(i)] in place of sizes[i] same reason and
+  it will give size of whole component
+  
+  */
+  
+  for(int i=0;i<n;i++){
+    cout<< i <<" parent : "<<find(i)<<" having size : "<<sizes[find(i)]<<"\n";
+  }
+
+
+}
+
+
+
+int32_t main() {  
+    ios;
+    int t=1;
+    // cin>>t;
+    while(t--){
+      solve();
+    }
+    return 0;
+}
+

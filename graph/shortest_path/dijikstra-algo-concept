@@ -1,0 +1,60 @@
+
+There is three way to apply dijkstra algorithm:
+
+1. one with queue which will take V*V - worst
+2. one with heap with TC - (E+V)*logV and to make code fatser this
+  // use with priority queue to avoid redundant updates present in heap
+            if (distance > dist[parent]) continue;
+3. one with set with TC - (E+V)*logV and to make code faster 
+  // use with set to to avoid redundant updates present in set
+                    q.erase(make_pair(dist[child],child));
+  
+A good problem to check whether you got crisp of dijkstra algorithm ot not
+
+https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/
+
+
+
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+        vector<pair<long long, long long>> graph[n];
+        vector<long long> dist(n,LLONG_MAX);
+        vector<long long> ways(n,0);
+
+        for (auto edge : roads) {
+            graph[edge[0]].push_back({edge[1], edge[2]});
+            graph[edge[1]].push_back({edge[0], edge[2]});
+        }
+        
+        set<pair<long long, long long>> q;
+
+        q.insert(make_pair(0, 0));
+        dist[0] = 0;
+        ways[0] = 1;
+        while (!q.empty()) {
+            auto [distance,parent] = *q.begin();
+            q.erase(q.begin());
+
+            // use with priority queue to avoid redundant updates present in heap
+            if (distance > dist[parent]) continue;
+
+            for (auto [child,weight] : graph[parent]) {
+                if (dist[child] > distance + weight) {
+
+                    // use with set to to avoid redundant updates present in set
+                    q.erase(make_pair(dist[child],child));
+
+                    dist[child] = distance + weight;
+                    q.insert(make_pair(dist[child],child));
+                    ways[child] = ways[parent]% 1000000007;
+                    
+                } else if (dist[child] ==  distance + weight) {
+                    ways[child] = (ways[child]+ ways[parent])% 1000000007;
+                }
+            }
+        }
+
+        return ways[n-1];
+    }
+};

@@ -28,6 +28,12 @@ int primsMST(int n, vector<vector<pii>>& adj, vector<edge>& mst) {
 
         // check visited or not if not then mark it to optimize redundant calls 
 
+Think of it like this:
+
+Pushing is just adding options.
+
+Popping is the moment of commitment — only proceed if the node hasn’t been added to the MST already.
+
         if (visited[node]) continue;      // ✅ THIS IS ESSENTIAL to remove redundant calls to already updated node 
         visited[node] = true;
         

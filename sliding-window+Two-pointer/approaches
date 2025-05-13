@@ -19,3 +19,11 @@
 5. use of dequeue,queue and stack to store some values in subarrays - monotonic stack problems
 
  https://leetcode.com/problems/count-number-of-nice-subarrays/description/
+
+6. Sliding window maximum/minimum - use of dequeue to get maximum from front and push and pop from back to maintain monotnic stack , dequeue is acting as monotonic stack or
+   decreasing stack or increasing stack but we need maximum or minimum which is at front of dequeue.
+
+https://leetcode.com/problems/sliding-window-maximum/description/
+
+7.
+ 

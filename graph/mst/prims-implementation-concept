@@ -27,7 +27,8 @@ int primsMST(int n, vector<vector<pii>>& adj, vector<edge>& mst) {
         pq.pop();
 
         // check visited or not if not then mark it to optimize redundant calls 
-        if (visited[node]) continue;
+
+        if (visited[node]) continue;      // ✅ THIS IS ESSENTIAL to remove redundant calls to already updated node 
         visited[node] = true;
         
         // add weight to total cost if you want it 
@@ -39,6 +40,9 @@ int primsMST(int n, vector<vector<pii>>& adj, vector<edge>& mst) {
         }
 
         for (auto [neighbor, w] : adj[node]) {
+
+                   // ✅ THIS IS OPTIMIZATION ONLY 
+
             if (!visited[neighbor]) {
                 pq.push({w, node, neighbor});
             }

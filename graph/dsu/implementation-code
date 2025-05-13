@@ -47,6 +47,9 @@ const int int_max=2147483647;
 vector<int> parent(N);
 vector<int> sizes(N);
 
+ *******  Thumb rule we try to shrink tree height thats why :
+  1. we do path compression or attach everyone directly to master parent itself
+  2. we add smaller components to larger components to make combined tree hright less or shrink it in union merging.
 
 int find(int x){
   // base case - until we reaches master parent 

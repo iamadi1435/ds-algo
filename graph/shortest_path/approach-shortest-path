@@ -4,3 +4,12 @@
 2. Dijikstra,0-1 Dfs,Bellman ford is available for both graphs and 2D matrix also.
 3.BFS does not work for weighted graphs unless modified with a priority queue, which ultimately turns it into Dijkstra’s algorithm.
 4.DFS would be highly inefficient because it would explore all possible paths, many of which would be unnecessary since they do not guarantee the shortest travel time. 
+5.Generic way to think about graph problems:
+  Start by trying BFS or DFS for traversal, reachability, and basic graph exploration.
+  Then consider Union-Find (Disjoint Set Union), especially for cycle detection or connected components in undirected graphs.
+  If the graph is directed, think about Kahn’s algorithm (Topological Sort) for ordering tasks or detecting cycles.
+  For pathfinding/shortest path problems:
+    Use Dijkstra’s algorithm for shortest paths with positive weights.
+    Use Floyd-Warshall for all-pairs shortest paths (good for smaller graphs).
+    Use Bellman-Ford if negative weights or negative cycles are involved.
+  If none of these approaches work, consider DP with graphs, especially in DAGs using topological order.

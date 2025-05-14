@@ -1,0 +1,32 @@
+Approach of graph to check cycle:
+
+  1. Directed graph cycle check:
+
+    a. with dfs and boolean ancestor array: just maintain ancestor array that which nodes are ancestor now if a particular node dfs call is pending it is 
+       ancestor node and just when it call finishes we can mark ancestor as false. 
+       if in between we are able to meet who is already a ancestor then there is a cycle.
+       Many times a thought comes then we can detect cycle with the parent and visited array but this is wrong.
+       Reason:
+
+         1 -> 2-> 3-> 4-> 5
+              |
+              6
+       we cannot use only visited and parent because we may visit a visted node but it cannot guarantee cycle .
+       in above example we can see 2 is visited again by 6  but it is not forming a cycle .
+       and we cannot check by checking parent here as there may be back edge to it 
+
+         2 <-> 3
+
+    b. with toposort calls check :  if at last size of topo sort is less than n then there is a cycle just size chekc of topo sort nodes.
+
+  2. Undirected graph cycle check:
+
+    a. with union find: 
+
+       if time of join two nodes have same parent then we have cycle.
+
+    b. using dfs and visited flag :
+
+       use an vis array when it is not parent and you are visiting again then there is cycle. this works only for undirected graph and for directed graph we need
+       ancestor array parent will not work in that case
+

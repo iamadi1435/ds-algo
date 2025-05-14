@@ -1,0 +1,55 @@
+
+  
+Here we have used second way of checking graph kahns algorithm :
+
+Here we have used indegree and pushed every node which has indegree 0 
+and to remove redundant calls we have avoided already added indegree 0 nodes to queue 
+
+Depending on problems you can use queue or priority queue(when order of same nodes matter)
+
+🟦 When to Use a priority_queue (min-heap):
+When you want the lexicographically smallest or ordered topological sort.
+
+It ensures nodes with lower numbers (or smaller lexicographic values) are processed first.
+
+https://www.geeksforgeeks.org/problems/topological-sort/1
+
+
+class Solution {
+  public:
+    vector<int> topoSort(int n, vector<vector<int>>& edges) {
+        // code here
+        vector<int> graph[n];
+        vector<int> indeg(n);
+        for(auto edge:edges){
+            graph[edge[0]].push_back(edge[1]);
+            indeg[edge[1]]++;
+        }
+        queue<int> q;
+
+      // initialy push all indeg 0 candidates in queue or pq as per your use 
+        for(int i=0;i<n;i++)
+         if(indeg[i] == 0)
+           q.push(i);
+           
+        vector<int> topoSorted ;
+           
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            
+            topoSorted.push_back(node);
+            
+            for(auto child:graph[node]){
+              
+              // push nonzero indeg child into queue or pq as per your use 
+                if(indeg[child] !=  0){
+                    indeg[child]--;
+                    if(indeg[child] == 0)
+                     q.push(child);
+                }
+            }
+        }
+        return topoSorted;
+    }
+};

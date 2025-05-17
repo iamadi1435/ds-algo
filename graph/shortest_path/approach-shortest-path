@@ -13,3 +13,9 @@
     Use Floyd-Warshall for all-pairs shortest paths (good for smaller graphs).
     Use Bellman-Ford if negative weights or negative cycles are involved.
   If none of these approaches work, consider DP with graphs, especially in DAGs using topological order.
+6. Some problem you have two source and one destination where when you find path from src1 to dest and src2 to dest then return the sum that will not work 
+   you have to find a common link between them and then from there you reach destination as simple as that .
+
+   A good example on this is the problem : 
+        2203. Minimum Weighted Subgraph With the Required Paths 
+               https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths/description/?envType=problem-list-v2&envId=shortest-path

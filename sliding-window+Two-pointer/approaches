@@ -28,6 +28,6 @@ https://leetcode.com/problems/sliding-window-maximum/description/
 7. Always take index in stack or queue maintianing anything in it .
 
 8. Sliding window fails in subarray when we need to find sum in subarray always keep mind .
-9. Max and min match in number of subarrays we can use montonic stack/monotonic deuqueue
+9. Max and min match in number of subarrays we can use montonic stack/monotonic dequeue
 
 https://leetcode.com/problems/count-subarrays-with-fixed-bounds/description/

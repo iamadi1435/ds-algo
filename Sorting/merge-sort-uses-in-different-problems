@@ -1,0 +1,55 @@
+✅ 1. Counting Inversions in an Array
+🔍 Problem: Count the number of pairs (i, j) such that i < j and arr[i] > arr[j].
+
+💡 Why Merge Sort?
+While merging two halves, you can count how many elements from the right are smaller than the current left — those are inversions.
+
+Time complexity: O(n log n) instead of naive O(n²).
+
+✅ 2. K-th Smallest or Largest Pair Distance
+🔍 Problem: Find the k-th smallest distance among all pairs in the array.
+
+💡 Why Merge Sort?
+Combine merge sort with binary search on distance and counting using two pointers or during merge.
+
+✅ 3. Smallest Number of Moves to Make Array Equal
+🔍 You are allowed to increment/decrement array elements; you need to make all elements equal with minimum moves.
+
+💡 Why Merge Sort?
+Sort the array using merge sort to compute median efficiently and calculate minimum moves in O(n log n).
+
+✅ 4. Sort a Linked List in O(n log n)
+🔍 Sorting a singly linked list.
+
+💡 Why Merge Sort?
+Merge Sort is the only comparison-based algorithm that works in O(n log n) time and can be applied to linked lists efficiently (unlike quicksort which needs random access).
+
+✅ 5. Finding Number of Reverse Pairs
+🔍 Like inversions, but condition is nums[i] > 2 * nums[j].
+
+💡 Why Merge Sort?
+During merge, count such pairs efficiently using two pointers. Naive approach is O(n²); merge sort reduces it to O(n log n).
+
+✅ 6. Maximum of All Minimums for Every Window Size
+🔍 This is used in sliding window problems where you need to preprocess.
+
+💡 Why Merge Sort?
+Merge sort tree (a variant of segment tree) can help with range queries when pre-processing is required.
+
+✅ 7. External Sorting (Huge Files)
+🔍 When data doesn't fit into RAM (e.g., log files, database sorting).
+
+💡 Why Merge Sort?
+Merge sort can be adapted into external sort where data is divided, sorted in chunks, and merged from disk.
+
+✅ 8. Multi-way Merge Problems
+🔍 Merge k sorted arrays.
+
+💡 Why Merge Sort?
+Recursive merge of sorted arrays is like applying merge sort on array of arrays.
+
+Often used with priority queues + divide-and-conquer.
+
+✅ 9. Sorting-based Techniques
+Problems like Closest Pair of Points, Minimum Number of Platforms, Meeting Rooms, Merge Intervals, etc., benefit from sorting with merge sort especially when stability or guaranteed time complexity matters.
+

@@ -1,1 +1,146 @@
 
+This problem has two variations one with positive value and one with negative value :
+
+
+1. When array elements are +ve : binary search on answeron all possible sum values on problem count subarrays having sum less than k 
+
+  we will apply binary search on answeer on  range (0,sum_of_array) and found number of subarray having sum less than mid .
+  If number of subarray having sum less than mid is <= k then  we decremt mid else increment mid 
+
+class Solution {
+public:
+    int kthSmallestSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+
+        // Compute possible range of subarray sums
+        int low = *min_element(nums.begin(), nums.end());
+        int high = 0;
+        for (int num : nums) high += num;
+
+        int answer = 0;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            long long count = countSubarraysLE(nums, mid);
+
+            if (count >= k) {
+                answer = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return answer;
+    }
+
+private:
+    // Count number of subarrays with sum <= target using sliding window
+    long long countSubarraysLE(const vector<int>& nums, int target) {
+        int left = 0;
+        long long sum = 0, count = 0;
+
+        for (int right = 0; right < nums.size(); ++right) {
+            sum += nums[right];
+            while (sum > target) {
+                sum -= nums[left++];
+            }
+            count += (right - left + 1); // valid subarrays ending at right
+        }
+
+        return count;
+    }
+};
+
+
+2. When array elements are -ve : 
+
+in this approach we will apply bsa on top of merge sort where  we can count number of subrrays whose sum is less than k :
+
+We will apply merge sort on prefix array to count pairs where pref[j] - pref[i] <k , we will count all distinct pairs by the use of 
+inversion count.
+
+Use of merge sort to count inversions , 
+
+class Solution {
+public:
+    int kthSmallestSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+
+        // Step 1: Compute prefix sums
+        // prefixSum[i] = sum of nums[0..i-1]
+        vector<long long> prefixSum(n + 1, 0);
+        for (int i = 0; i < n; ++i) {
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+        }
+
+        // Step 2: Set initial binary search range
+        // Lower bound could be the smallest element
+        // Upper bound is the total sum of the array
+        long long low = *min_element(nums.begin(), nums.end());
+        long long high = prefixSum[n];
+        long long answer = 0;
+
+        // Step 3: Binary search on the subarray sum
+        while (low <= high) {
+            long long mid = (low + high) / 2;
+
+            // Count how many subarrays have sum ≤ mid
+            long long count = countSubarraysWithSumLE(prefixSum, mid);
+
+            if (count >= k) {
+                // mid might be the k-th smallest, search left
+                answer = mid;
+                high = mid - 1;
+            } else {
+                // Need more subarrays, search right
+                low = mid + 1;
+            }
+        }
+
+        return (int)answer;
+    }
+
+private:
+    // Helper function: Counts number of subarrays with sum ≤ target
+    long long countSubarraysWithSumLE(vector<long long>& prefixSum, long long target) {
+        return mergeSortAndCount(prefixSum, 0, prefixSum.size(), target);
+    }
+
+    // Modified merge sort that counts valid subarrays
+    long long mergeSortAndCount(vector<long long>& sums, int left, int right, long long target) {
+        if (right - left <= 1) return 0; // Base case: no pair to count
+
+        int mid = (left + right) / 2;
+        long long count = 0;
+
+        // Recursively count in left and right halves
+        count += mergeSortAndCount(sums, left, mid, target);
+        count += mergeSortAndCount(sums, mid, right, target);
+
+        // Count cross-subarray pairs: sums[j] - sums[i] ≤ target
+        int j = mid;
+        for (int i = left; i < mid; ++i) {
+            while (j < right && sums[j] - sums[i] <= target) {
+                ++j;
+            }
+            count += (j - mid); // Number of valid j's for each i
+        }
+
+        // Step: Merge the two sorted halves for next recursion
+        inplace_merge(sums.begin() + left, sums.begin() + mid, sums.begin() + right);
+
+        return count;
+    }
+};
+
+
+
+
+
+  
+
+
+ 
+
+
+

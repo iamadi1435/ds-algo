@@ -1,1 +1,35 @@
 
+when we have to apply binary search on array where array cannot be sorted ( elements order cannot be changed) then we have to apply merge sort instead of normal sort and top of that binary search will be applied .
+
+
+✅ Use Normal Sort + Binary Search when:
+
+You're dealing with static arrays or subarrays, and
+
+You can precompute values (e.g. pairwise distances, prefix sums), and
+
+You can sort those values and index/search in them
+
+✅ Example problems:
+
+719. K-th Smallest Pair Distance
+
+K-th Smallest Element in a Sorted Matrix
+
+Koko Eating Bananas
+
+✅ Use Merge Sort (with counting logic) when:
+
+You are dealing with subarrays, range queries, or prefix sums, and
+
+You need to count how many ranges/pairs satisfy a condition (e.g., sum ≤ X), and
+
+The array may contain negative numbers, which breaks two-pointer logic
+
+✅ Example problems:
+
+1918. K-th Smallest Subarray Sum (with negative numbers)
+
+Count of Range Sum
+
+Reverse Pairs

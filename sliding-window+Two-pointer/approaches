@@ -31,3 +31,8 @@ https://leetcode.com/problems/sliding-window-maximum/description/
 9. Max and min match in number of subarrays we can use montonic stack/monotonic dequeue
 
 https://leetcode.com/problems/count-subarrays-with-fixed-bounds/description/
+
+10.Sometimes subarray problems can be solved using sliding window techiniques with maps/set or  monotonic stack/dequeue but sometimes we need to apply binary search on any value which is 
+   associated with subarray like bsa on sum of subarray to get kth smallest/kth largest subarray sum.
+
+https://algo.monster/liteproblems/1918

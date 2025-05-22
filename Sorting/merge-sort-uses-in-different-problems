@@ -1,3 +1,8 @@
+
+ /** Use merge sort instead of normal sort when we have negative numbers and we cannot sort the array in which we have to apply sort sometimes order matters we cannot directly sort. **/
+
+
+
 ✅ 1. Counting Inversions in an Array
 🔍 Problem: Count the number of pairs (i, j) such that i < j and arr[i] > arr[j].
 

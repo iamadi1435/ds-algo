@@ -1,1 +1,51 @@
+https://algo.monster/liteproblems/1918
 
+Perfect classical example how to use merge sort(D & C) to calculate count or something
+
+
+class Solution {
+Generic code to use merge sort for counting in various problems.
+
+Sometimes nums array on which you have to apply merge sort is directly given and some times you have to make it exp - prefix sum array etc.
+
+https://algo.monster/liteproblems/1918
+
+public:
+    int kthSmallestSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<long long> prefix(n + 1, 0);
+        for (int i = 0; i < n; ++i)
+            prefix[i + 1] = prefix[i] + nums[i];
+        
+        long long low = *min_element(nums.begin(), nums.end());
+        long long high = prefix[n];
+        long long ans = 0;
+
+        while (low <= high) {
+            long long mid = (low + high) / 2;
+            int count = countSubarrays(prefix, 0, n, mid);
+            if (count < k) low = mid + 1;
+            else {
+                ans = mid;
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+    int countSubarrays(vector<long long>& prefix, int l, int r, long long t) {
+        if (r - l <= 1) return 0;
+        int m = (l + r) / 2;
+        int count = countSubarrays(prefix, l, m, t) + countSubarrays(prefix, m, r, t);
+        vector<long long> temp;
+        int j = m, k = m;
+
+        for (int i = l; i < m; ++i) {
+            while (k < r && prefix[k] - prefix[i] <= t) ++k;
+            count += k - m;
+        }
+
+        inplace_merge(prefix.begin() + l, prefix.begin() + m, prefix.begin() + r);
+        return count;
+    }
+};

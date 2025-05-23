@@ -1,8 +1,6 @@
 
  /** Use merge sort instead of normal sort when we have negative numbers and we cannot sort the array in which we have to apply sort sometimes order matters we cannot directly sort. **/
 
-
-
 ✅ 1. Counting Inversions in an Array
 🔍 Problem: Count the number of pairs (i, j) such that i < j and arr[i] > arr[j].
 
@@ -11,11 +9,15 @@ While merging two halves, you can count how many elements from the right are sma
 
 Time complexity: O(n log n) instead of naive O(n²).
 
+https://www.geeksforgeeks.org/inversion-count-in-array-using-merge-sort/
+
 ✅ 2. K-th Smallest or Largest Pair Distance
 🔍 Problem: Find the k-th smallest distance among all pairs in the array.
 
 💡 Why Merge Sort?
 Combine merge sort with binary search on distance and counting using two pointers or during merge.
+
+https://algo.monster/liteproblems/1918
 
 ✅ 3. Smallest Number of Moves to Make Array Equal
 🔍 You are allowed to increment/decrement array elements; you need to make all elements equal with minimum moves.

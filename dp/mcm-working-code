@@ -1,0 +1,26 @@
+In MCM points to ponder:
+ a. We have to start mcm[start,end) excluded so we call mcm function solve(1,n-1,arr) where index 1 is included but n-1 do not.
+ b. For base case we have to target small values of that particular question : here when interval size is 1 we do not get any answers from there that's why return 0.
+
+In MCM to write base case consider this start and end as intervals then for that particular interval write base cases and stuffs.
+
+class Solution {
+  public:
+    int solve(int start,int end,vector<int> &arr){
+        if(start >= end) return 0;
+        int ans = INT_MAX;
+        for(int k = start;k < end; k++){
+            ans = min (ans , solve( start , k ,arr) + solve(k+1,end,arr)
+            + arr[start-1]*arr[k]*arr[end]);
+        }
+        return ans;
+    }
+    int matrixMultiplication(vector<int> &arr) {
+        // code here
+        int n = arr.size();
+        
+        // solve[start,end) here start is included but end do not 
+        
+        return solve(1,n-1,arr);
+    }
+};

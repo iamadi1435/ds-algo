@@ -1,0 +1,59 @@
+
+
+  // gap = start - end
+  
+                  gap
+  00 11 22 33  -   0
+  01 12 23     -   1
+  02 13        -   2
+  03           -   3
+
+  startend = 00 
+
+  // start starts from 0 every time 
+  // end starts from gap every time 
+
+
+    for (int gap = 0; gap < n; ++gap) {
+        for (int start = 0, end = gap; start < n &&  end < n; ++start, ++end) {
+
+             if(gap == 0){
+             }
+             else if(gap == 1) {
+             }
+             else {
+             }
+
+
+
+            for (int k = start +1; k < end; ++k) {
+               // FOR MCM ,PALINDROME PARTIONING PROBLEM,BURST BALLON ETC.
+            }
+        }
+    }
+
+   It is very useful when we name variable in terms of start and end because maximu time we are applying interval dp with the help of it .
+
+  // gap = col - row
+  // row starts from 0 every time 
+  // col starts from gap every time 
+
+
+    for (int gap = 0; gap < n; ++gap) {
+        for (int row = 0, col = gap; row < n &&  col < n; ++row, ++col) {
+
+             if(gap == 0){
+             }
+             else if(gap == 1) {
+             }
+             else {
+             }
+
+
+
+            for (int k = row +1; k < col; ++k) {
+               // FOR MCM ,PALINDROME PARTIONING PROBLEM,BURST BALLON ETC.
+            }
+        }
+    }
+

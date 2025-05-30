@@ -1,0 +1,54 @@
+
+https://leetcode.com/problems/maximize-the-number-of-target-nodes-after-connecting-trees-ii/description/?envType=daily-question&envId=2025-05-30
+
+class Solution {
+public:
+    vector<int> solve(int node,int parent ,vector<vector<int>> &g,vector<vector<int>> &parity){
+          int even = 1,odd= 0;
+          for(auto child:g[node]){
+            if(child != parent){
+              vector<int> childParity =  solve(child,node,g,parity);
+              even += childParity[1];
+              odd += childParity[0];
+            }
+          }
+          return parity[node] = {even,odd};
+    }
+    void reRooting(int node,int parent ,vector<vector<int>> &g,vector<vector<int>> &parity,vector<int> parAns){
+          for(auto child:g[node]){
+            if(child != parent){
+              parity[child] = {parAns[1],parAns[0]};
+              reRooting(child,node,g,parity,parity[child]);
+            }
+          }
+    }
+    
+    vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2) {
+        int m1 = edges1.size(), m2 = edges2.size();
+        vector<vector<int>>  graph1(m1 + 1), graph2(m2 + 1),parity1(m1+1),parity2(m2+1);
+        for (auto& edge : edges1) {
+            graph1[edge[0]].push_back(edge[1]);
+            graph1[edge[1]].push_back(edge[0]);
+        }
+        for (auto& edge : edges2) {
+            graph2[edge[0]].push_back(edge[1]);
+            graph2[edge[1]].push_back(edge[0]);
+        }
+
+       solve(0,-1,graph2,parity2);
+       reRooting(0,-1,graph2,parity2,parity2[0]);
+
+       int maxOdd = 0;
+       for(int i=0;i<m2+1;i++){
+        maxOdd = max(maxOdd,parity2[i][1]);
+       }
+
+       solve(0,-1,graph1,parity1);
+       reRooting(0,-1,graph1,parity1,parity1[0]);
+       vector<int> ans;
+       for(int i =0;i<m1+1;i++){
+        ans.push_back(parity1[i][0]+maxOdd);
+       }
+       return ans;
+    }
+};

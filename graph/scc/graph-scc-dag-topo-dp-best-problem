@@ -1,0 +1,134 @@
+
+https://www.codechef.com/problems/MCO16405
+
+To solve this problem efficiently, we need to consider the structure of the graph formed by towns and roads. Because Fluffy can move indefinitely along the roads, we must take Strongly Connected Components (SCCs) into account, as within an SCC, all nodes are mutually reachable.
+
+Key Ideas:
+SCC Condensation: Collapse the graph into SCCs. Within each SCC, Fluffy can visit all towns, so we sum the populations of towns within an SCC.
+
+Condensation Graph: Build a Directed Acyclic Graph (DAG) from SCCs. Each SCC is a node, and edges between SCCs represent reachable connections between towns.
+
+DP on DAG: Apply dynamic programming on the DAG in topological order to compute the maximum number of people Fluffy can meet starting from any SCC.
+
+Mapping Back: Map each town back to its SCC and assign the computed DP value to it.
+
+Algorithm Steps:
+Use Kosaraju’s Algorithm or Tarjan’s Algorithm to find SCCs.
+
+Build a condensed graph (DAG) where each node is an SCC.
+
+Use Topological Sort to process the DAG.
+
+Use DP to propagate maximum population reachable from each SCC.
+
+Map the results back to original towns.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+const int MAXN = 100005;
+
+vector<int> graph[MAXN], rev_graph[MAXN];
+vector<int> order;
+bool visited[MAXN];
+int component[MAXN];
+vector<vector<int>> sccs;
+vector<long long> scc_population;
+vector<int> scc_graph[MAXN];
+long long dp[MAXN];
+int in_deg[MAXN];
+
+void dfs1(int u) {
+    visited[u] = true;
+    for (int v : graph[u]) {
+        if (!visited[v]) dfs1(v);
+    }
+    order.push_back(u);
+}
+
+void dfs2(int u, int id, vector<int>& pop, long long& sum) {
+    component[u] = id;
+    sum += pop[u];
+    for (int v : rev_graph[u]) {
+        if (component[v] == -1) {
+            dfs2(v, id, pop, sum);
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<int> pop(n);
+    for (int i = 0; i < n; ++i) cin >> pop[i];
+
+    // Read edges
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        --u; --v;
+        graph[u].push_back(v);
+        rev_graph[v].push_back(u);
+    }
+
+    // Step 1: Order vertices by finish time
+    fill(visited, visited + n, false);
+    for (int i = 0; i < n; ++i) {
+        if (!visited[i]) dfs1(i);
+    }
+
+    // Step 2: Reverse DFS to find SCCs
+    fill(component, component + n, -1);
+    reverse(order.begin(), order.end());
+    int scc_count = 0;
+    for (int u : order) {
+        if (component[u] == -1) {
+            long long sum = 0;
+            dfs2(u, scc_count++, pop, sum);
+            scc_population.push_back(sum);
+        }
+    }
+
+    // Step 3: Build condensed graph (SCC DAG)
+    for (int u = 0; u < n; ++u) {
+        for (int v : graph[u]) {
+            int cu = component[u];
+            int cv = component[v];
+            if (cu != cv) {
+                scc_graph[cu].push_back(cv);
+                in_deg[cv]++;
+            }
+        }
+    }
+
+    // Step 4: Topo sort + DP on SCC DAG
+    queue<int> q;
+    for (int i = 0; i < scc_count; ++i) {
+        dp[i] = scc_population[i];
+        if (in_deg[i] == 0) q.push(i);
+    }
+
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int v : scc_graph[u]) {
+            if (dp[v] < dp[u] + scc_population[v]) {
+                dp[v] = dp[u] + scc_population[v];
+            }
+            if (--in_deg[v] == 0) {
+                q.push(v);
+            }
+        }
+    }
+
+    // Step 5: Assign result per node
+    for (int i = 0; i < n; ++i) {
+        cout << dp[component[i]] << " ";
+    }
+    cout << "\n";
+
+    return 0;
+}

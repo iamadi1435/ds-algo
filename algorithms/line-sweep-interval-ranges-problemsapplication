@@ -1,0 +1,71 @@
+https://dilipkumar.medium.com/interval-coding-pattern-068c36197cf5
+https://algo.monster/liteproblems/759
+
+Sweep Line Algorithm is very usefull in interval ranges problem 
+
+import java.util.*;
+
+class Interval{
+    public
+    int start = 0;
+    int end = 0;
+}
+
+public class SweepLineAlgorithm {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        List<List<Interval>> intervals = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            int arrSize = sc.nextInt();
+            sc.nextLine();
+            List<Interval> temp = new ArrayList<>();
+            for (int j = 0; j < arrSize; j++) {
+                Interval interval = new Interval();
+                interval.start = sc.nextInt();
+                interval.end = sc.nextInt();
+                sc.nextLine();
+                temp.add(interval);
+            }
+            intervals.add(temp);
+        }
+
+        TreeMap<Integer,Integer> mp = new TreeMap<>();
+
+        for(List<Interval> intervalArray:intervals){
+            for(Interval interval : intervalArray ){
+                mp.put(interval.start, mp.getOrDefault(interval.start,0)+1);
+                mp.put(interval.end, mp.getOrDefault(interval.end,0)-1);
+            }
+        }
+
+        List<Interval> freeTimeList = new ArrayList<>();
+        int currentTime = 0;
+        int start = 0;
+        for(Map.Entry<Integer,Integer> val: mp.entrySet()){
+            currentTime += val.getValue();
+            if(currentTime == 0 ){
+                if(start == 0)
+                   start = val.getKey();
+            }
+            else{
+                if(start != 0){
+                    Interval freeTime = new Interval();
+                    freeTime.start = start;
+                    freeTime.end = val.getKey();
+                    freeTimeList.add(freeTime);
+                    start = 0;
+                }
+            }
+        }
+
+         for(Interval interval:freeTimeList){
+             System.out.println(interval.start + " -> " + interval.end);
+         }
+    }
+}
+
+
